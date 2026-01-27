@@ -1,0 +1,303 @@
+import { useMemo } from 'react';
+import { useParams, Link } from 'react-router-dom';
+
+import Tooltip from '../components/ui/Tooltip.jsx';
+import { characters } from '../data/characters.js';
+import { itemGroup } from '../data/itemGroup.js'; // if you have it; if not, see note below
+import { loadCharacterSheet } from '../logic/loadCharacterData.js';
+
+function rarityStars(rarity) {
+  return '★★★★★'.slice(0, rarity ?? 0);
+}
+
+function statLabel(statGrow) {
+  if (statGrow === 'em') return 'Elemental Mastery';
+  if (statGrow === 'critRate') return 'CRIT Rate';
+  if (statGrow === 'critDamage') return 'CRIT DMG';
+  return statGrow;
+}
+
+function formatGrowValue(sheet, statGrow, idx) {
+  const v = sheet?.[statGrow]?.[idx];
+  if (v == null) return '-';
+  if (statGrow === 'em') return Math.round(v);
+  if (statGrow === 'critRate' || statGrow === 'critDamage') return `${(v * 100).toFixed(1)}%`;
+  // most other growth stats are % arrays
+  return `${(v * 100).toFixed(1)}%`;
+}
+
+export default function CharacterPage() {
+  const { id } = useParams();
+
+  console.log('has aino in characters?', Boolean(characters.aino));
+console.log('some character keys:', Object.keys(characters).slice(0, 10));
+console.log('id from route:', id);
+
+
+  const charMeta = characters[id];
+  const sheet = loadCharacterSheet(id);
+
+  // Basic not-found handling
+  if (!charMeta || !sheet) {
+    return (
+      <main className="min-h-screen bg-zinc-950 text-white p-6">
+        <div className="max-w-4xl mx-auto">
+          <Link className="text-zinc-300 hover:text-white" to="/">← Back</Link>
+          <h1 className="text-3xl font-bold mt-6">Character not found</h1>
+          <p className="text-zinc-300 mt-2">No data for id: <span className="font-mono">{id}</span></p>
+        </div>
+      </main>
+    );
+  }
+
+  // Data used by the page
+  const bookId = charMeta.material?.book?.[0]?.id;
+  const book = bookId ? itemGroup?.[bookId] : null;
+  const bossItem = charMeta.material?.boss ?? null;
+  const ascMaterials = charMeta.ascension ?? [];
+
+  // v1 ascension rows: 0..6 with caps; materials from phase 0..5
+  const ascRows = useMemo(() => {
+    const phases = [
+      { asc: 0, cap: 20 },
+      { asc: 1, cap: 40 },
+      { asc: 2, cap: 50 },
+      { asc: 3, cap: 60 },
+      { asc: 4, cap: 70 },
+      { asc: 5, cap: 80 },
+      { asc: 6, cap: 90 },
+    ];
+
+    return phases.map((p) => {
+      const idx = p.cap; // sheet arrays are indexed by level; yours include padding at [0]
+      const stats = {
+        hp: Math.round(sheet.hp?.[idx] ?? 0),
+        atk: Math.round(sheet.atk?.[idx] ?? 0),
+        def: Math.round(sheet.def?.[idx] ?? 0),
+        grow: formatGrowValue(sheet, sheet.statGrow, idx),
+      };
+
+      const materials = p.asc <= 5 ? ascMaterials[p.asc] : null;
+
+      return { ...p, stats, materials };
+    });
+  }, [sheet, ascMaterials]);
+
+  return (
+    <main className="min-h-screen bg-zinc-950 text-white">
+      {/* Top bar */}
+      <div className="px-6 pt-6">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <Link className="text-zinc-300 hover:text-white" to="/">← Dashboard</Link>
+          <div className="text-zinc-400 text-sm font-mono">/characters/{id}</div>
+        </div>
+      </div>
+
+      {/* Main layout */}
+      <div className="px-6 pb-10 pt-6">
+        <div className="max-w-6xl mx-auto grid gap-6 lg:grid-cols-[380px,1fr] items-start">
+
+          {/* LEFT: Art poster */}
+          <div className="relative rounded-3xl overflow-hidden bg-zinc-900/60 border border-white/10">
+            <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/20 via-cyan-500/10 to-transparent" />
+            <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" />
+            <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-indigo-400/20 blur-3xl" />
+
+            <div className="relative p-4">
+              <img
+                src={`/images/characters/full/${id}.png`}
+                alt={charMeta.name}
+                className="w-full h-auto object-contain"
+              />
+            </div>
+
+            {/* quick badges */}
+            <div className="relative px-5 pb-5">
+              <div className="flex items-center justify-between">
+                <div className="text-zinc-300">
+                  <div className="text-xs uppercase tracking-wider">Rarity</div>
+                  <div className="text-lg font-semibold">{rarityStars(charMeta.rarity)}</div>
+                </div>
+
+                <div className="text-zinc-300 text-right">
+                  <div className="text-xs uppercase tracking-wider">Weapon</div>
+                  <div className="text-lg font-semibold">{charMeta.weapon?.name ?? sheet.weapon}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: Info cards */}
+          <div className="min-w-0 grid gap-6">
+
+            {/* Header */}
+            <div className="rounded-3xl bg-zinc-900/60 border border-white/10 p-6">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <h1 className="text-4xl font-black tracking-tight">{charMeta.name}</h1>
+
+                {/* element icon */}
+                {charMeta.element?.id && (
+                  <img
+                    src={`/images/elements/${charMeta.element.id}.png`}
+                    alt={charMeta.element.name}
+                    className="h-8 w-8 object-contain"
+                  />
+                )}
+
+                <span className="text-zinc-300">
+                  {charMeta.weapon?.name ?? sheet.weapon}
+                </span>
+              </div>
+
+              <p className="text-zinc-300 mt-3 max-w-2xl">
+                {sheet.description}
+              </p>
+
+              {/* Highlight stat grow */}
+              <div className="mt-4 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-4 py-2">
+                <span className="text-zinc-400 text-sm">Ascension Bonus</span>
+                <span className="font-semibold">{statLabel(sheet.statGrow)}</span>
+              </div>
+            </div>
+
+            {/* Key materials strip */}
+            <div className="rounded-3xl bg-zinc-900/60 border border-white/10 p-6">
+              <div className="flex flex-wrap gap-6 items-start">
+
+                <div>
+                  <div className="text-sm text-zinc-400 mb-2">Talent Book</div>
+                  {bookId ? (
+                    <Tooltip title={book?.name ?? bookId}>
+                      <div className="flex items-center gap-3">
+                        <div className="h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2">
+                          <img
+                            src={`/images/items/${bookId}.png`}
+                            alt={book?.name ?? bookId}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-semibold truncate">{book?.name ?? bookId}</div>
+                          <div className="text-xs text-zinc-400">From charMeta.material.book</div>
+                        </div>
+                      </div>
+                    </Tooltip>
+                  ) : (
+                    <div className="text-zinc-400">—</div>
+                  )}
+                </div>
+
+                <div>
+                  <div className="text-sm text-zinc-400 mb-2">Boss</div>
+                  {bossItem?.id ? (
+                    <Tooltip title={bossItem.name ?? bossItem.id}>
+                      <div className="h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2">
+                        <img
+                          src={`/images/items/${bossItem.id}.png`}
+                          alt={bossItem.name ?? bossItem.id}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : (
+                    <div className="text-zinc-400">—</div>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-[240px]">
+                  <div className="text-sm text-zinc-400 mb-2">Ascension Materials (preview)</div>
+                  <div className="flex flex-wrap gap-2">
+                    {(ascMaterials?.[0]?.items ?? [])
+                      .filter((x) => x?.item?.id && x.item.id !== 'none')
+                      .map((x) => (
+                        <Tooltip key={x.item.id} title={x.item.name ?? x.item.id}>
+                          <div className="h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2">
+                            <img
+                              src={`/images/items/${x.item.id}.png`}
+                              alt={x.item.name ?? x.item.id}
+                              className="h-full w-full object-contain"
+                            />
+                          </div>
+                        </Tooltip>
+                      ))}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Ascension table */}
+            <div className="rounded-3xl bg-zinc-900/60 border border-white/10 p-6 overflow-x-auto">
+              <div className="flex items-end justify-between gap-4 mb-4">
+                <div>
+                  <h2 className="text-xl font-bold">Ascension Planner</h2>
+                  <p className="text-sm text-zinc-400">
+                    Clean rows (cap stats + mats). We can add the “two-rows-per-phase” view later if you want.
+                  </p>
+                </div>
+              </div>
+
+              <table className="min-w-[900px] w-full text-sm">
+                <thead className="text-zinc-300">
+                  <tr className="border-b border-white/10">
+                    <th className="text-left py-3 pr-3">ASC</th>
+                    <th className="text-left py-3 pr-3">Cap</th>
+                    <th className="text-left py-3 pr-3">HP</th>
+                    <th className="text-left py-3 pr-3">ATK</th>
+                    <th className="text-left py-3 pr-3">DEF</th>
+                    <th className="text-left py-3 pr-3">{statLabel(sheet.statGrow)}</th>
+                    <th className="text-left py-3">Materials</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {ascRows.map((row) => (
+                    <tr key={row.asc} className="border-b border-white/5 align-top">
+                      <td className="py-3 pr-3 font-semibold">{row.asc}</td>
+                      <td className="py-3 pr-3 text-zinc-300">Lv. {row.cap}</td>
+                      <td className="py-3 pr-3">{row.stats.hp}</td>
+                      <td className="py-3 pr-3">{row.stats.atk}</td>
+                      <td className="py-3 pr-3">{row.stats.def}</td>
+                      <td className="py-3 pr-3 font-semibold">{row.stats.grow}</td>
+
+                      <td className="py-3">
+                        {row.materials ? (
+                          <div className="flex flex-col gap-2">
+                            <div className="flex flex-wrap gap-2 items-center">
+                              {row.materials.items
+                                .filter((x) => x?.item?.id && x.item.id !== 'none')
+                                .map((x) => (
+                                  <Tooltip key={x.item.id} title={x.item.name ?? x.item.id}>
+                                    <div className="inline-flex items-center gap-1 rounded-2xl border border-white/10 bg-black/20 px-2 py-1">
+                                      <img
+                                        src={`/images/items/${x.item.id}.png`}
+                                        alt={x.item.name ?? x.item.id}
+                                        className="h-6 w-6 object-contain"
+                                      />
+                                      <span className="text-zinc-200">×{x.amount}</span>
+                                    </div>
+                                  </Tooltip>
+                                ))}
+                            </div>
+
+                            <div className="text-zinc-300 inline-flex items-center gap-2">
+                              <img src="/images/mora.png" alt="Mora" className="h-5 w-5" />
+                              <span>{Intl.NumberFormat('en').format(row.materials.mora ?? 0)}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-zinc-500">—</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
