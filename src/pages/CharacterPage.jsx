@@ -56,32 +56,32 @@ console.log('id from route:', id);
   const bossItem = charMeta.material?.boss ?? null;
   const ascMaterials = charMeta.ascension ?? [];
 
-  // v1 ascension rows: 0..6 with caps; materials from phase 0..5
-  const ascRows = useMemo(() => {
-    const phases = [
-      { asc: 0, cap: 20 },
-      { asc: 1, cap: 40 },
-      { asc: 2, cap: 50 },
-      { asc: 3, cap: 60 },
-      { asc: 4, cap: 70 },
-      { asc: 5, cap: 80 },
-      { asc: 6, cap: 90 },
-    ];
+// 2-rows-per-phase display recipe (mirrors original logic)
+const ascTable = useMemo(() => {
+  // these indices/labels are tuned to the data arrays in characterData JSON
+  const showedIndex = [1, 20, 21, 41, 42, 52, 53, 63, 64, 74, 75, 85, 86, 96];
+  const levelLabel = [1, 20, 20, 40, 40, 50, 50, 60, 60, 70, 70, 80, 80, 90];
+  const ascLabel = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6];
 
-    return phases.map((p) => {
-      const idx = p.cap; // sheet arrays are indexed by level; yours include padding at [0]
-      const stats = {
-        hp: Math.round(sheet.hp?.[idx] ?? 0),
-        atk: Math.round(sheet.atk?.[idx] ?? 0),
-        def: Math.round(sheet.def?.[idx] ?? 0),
-        grow: formatGrowValue(sheet, sheet.statGrow, idx),
-      };
+  const rows = showedIndex.map((idx, i) => {
+    return {
+      i,
+      idx,
+      level: levelLabel[i],
+      asc: ascLabel[i],
+      hp: Math.round(sheet.hp?.[idx] ?? 0),
+      atk: Math.round(sheet.atk?.[idx] ?? 0),
+      def: Math.round(sheet.def?.[idx] ?? 0),
+      grow: formatGrowValue(sheet, sheet.statGrow, idx),
+      // Materials show once per phase; for asc > 0 use previous phase materials (same as original)
+      materials: ascLabel[i] > 0 ? ascMaterials?.[ascLabel[i] - 1] ?? null : null,
+      isPhaseHeaderRow: i % 2 === 0, // row 0,2,4,... gets the rowSpan cells
+    };
+  });
 
-      const materials = p.asc <= 5 ? ascMaterials[p.asc] : null;
+  return rows;
+}, [sheet, ascMaterials]);
 
-      return { ...p, stats, materials };
-    });
-  }, [sheet, ascMaterials]);
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
@@ -98,14 +98,11 @@ console.log('id from route:', id);
         <div className="max-w-6xl mx-auto grid gap-6 lg:grid-cols-[380px,1fr] items-start">
 
           {/* LEFT: Art poster */}
-          <div className="relative rounded-3xl overflow-hidden bg-zinc-900/60 border border-white/10">
-            <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/20 via-cyan-500/10 to-transparent" />
-            <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" />
-            <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-indigo-400/20 blur-3xl" />
+          <div className="relative rounded-3xl overflow-hidden">
 
             <div className="relative p-4">
               <img
-                src={`/images/characters/full/${id}.png`}
+                src={`/static/images/characters/full/${id}.png`}
                 alt={charMeta.name}
                 className="w-full h-auto object-contain"
               />
@@ -138,7 +135,7 @@ console.log('id from route:', id);
                 {/* element icon */}
                 {charMeta.element?.id && (
                   <img
-                    src={`/images/elements/${charMeta.element.id}.png`}
+                    src={`/static/images/elements/${charMeta.element.id}.png`}
                     alt={charMeta.element.name}
                     className="h-8 w-8 object-contain"
                   />
@@ -171,7 +168,7 @@ console.log('id from route:', id);
                       <div className="flex items-center gap-3">
                         <div className="h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2">
                           <img
-                            src={`/images/items/${bookId}.png`}
+                            src={`/static/images/items/${bookId}.png`}
                             alt={book?.name ?? bookId}
                             className="h-full w-full object-contain"
                           />
@@ -193,7 +190,7 @@ console.log('id from route:', id);
                     <Tooltip title={bossItem.name ?? bossItem.id}>
                       <div className="h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2">
                         <img
-                          src={`/images/items/${bossItem.id}.png`}
+                          src={`/static/images/items/${bossItem.id}.png`}
                           alt={bossItem.name ?? bossItem.id}
                           className="h-full w-full object-contain"
                         />
@@ -213,7 +210,7 @@ console.log('id from route:', id);
                         <Tooltip key={x.item.id} title={x.item.name ?? x.item.id}>
                           <div className="h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2">
                             <img
-                              src={`/images/items/${x.item.id}.png`}
+                              src={`/static/images/items/${x.item.id}.png`}
                               alt={x.item.name ?? x.item.id}
                               className="h-full w-full object-contain"
                             />
@@ -250,48 +247,66 @@ console.log('id from route:', id);
                   </tr>
                 </thead>
 
-                <tbody>
-                  {ascRows.map((row) => (
-                    <tr key={row.asc} className="border-b border-white/5 align-top">
-                      <td className="py-3 pr-3 font-semibold">{row.asc}</td>
-                      <td className="py-3 pr-3 text-zinc-300">Lv. {row.cap}</td>
-                      <td className="py-3 pr-3">{row.stats.hp}</td>
-                      <td className="py-3 pr-3">{row.stats.atk}</td>
-                      <td className="py-3 pr-3">{row.stats.def}</td>
-                      <td className="py-3 pr-3 font-semibold">{row.stats.grow}</td>
+<tbody>
+  {ascTable.map((row) => (
+    <tr key={row.i} className="border-b border-white/5 align-top">
+      {/* ASC cell once per phase (rowSpan=2) */}
+      {row.isPhaseHeaderRow && (
+        <td rowSpan={2} className="py-3 pr-3 font-semibold align-middle">
+          {row.asc}
+        </td>
+      )}
 
-                      <td className="py-3">
-                        {row.materials ? (
-                          <div className="flex flex-col gap-2">
-                            <div className="flex flex-wrap gap-2 items-center">
-                              {row.materials.items
-                                .filter((x) => x?.item?.id && x.item.id !== 'none')
-                                .map((x) => (
-                                  <Tooltip key={x.item.id} title={x.item.name ?? x.item.id}>
-                                    <div className="inline-flex items-center gap-1 rounded-2xl border border-white/10 bg-black/20 px-2 py-1">
-                                      <img
-                                        src={`/images/items/${x.item.id}.png`}
-                                        alt={x.item.name ?? x.item.id}
-                                        className="h-6 w-6 object-contain"
-                                      />
-                                      <span className="text-zinc-200">×{x.amount}</span>
-                                    </div>
-                                  </Tooltip>
-                                ))}
-                            </div>
+      {/* LEVEL */}
+      <td className="py-3 pr-3 text-zinc-300">Lv. {row.level}</td>
 
-                            <div className="text-zinc-300 inline-flex items-center gap-2">
-                              <img src="/images/mora.png" alt="Mora" className="h-5 w-5" />
-                              <span>{Intl.NumberFormat('en').format(row.materials.mora ?? 0)}</span>
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="text-zinc-500">—</span>
-                        )}
-                      </td>
-                    </tr>
+      {/* STATS */}
+      <td className="py-3 pr-3">{row.hp}</td>
+      <td className="py-3 pr-3">{row.atk}</td>
+      <td className="py-3 pr-3">{row.def}</td>
+
+      {/* Bonus stat once per phase */}
+      {row.isPhaseHeaderRow && (
+        <td rowSpan={2} className="py-3 pr-3 font-semibold align-middle">
+          {row.grow}
+        </td>
+      )}
+
+      {/* Materials once per phase */}
+      {row.isPhaseHeaderRow && (
+        <td rowSpan={2} className="py-3 align-middle">
+          {row.materials ? (
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap gap-2 items-center">
+                {row.materials.items
+                  .filter((x) => x?.item?.id && x.item.id !== 'none')
+                  .map((x) => (
+                    <Tooltip key={x.item.id} title={x.item.name ?? x.item.id}>
+                      <div className="inline-flex items-center gap-1 rounded-2xl border border-white/10 bg-black/20 px-2 py-1">
+                        <img
+                          src={`/static/images/items/${x.item.id}.png`}
+                          alt={x.item.name ?? x.item.id}
+                          className="h-6 w-6 object-contain"
+                        />
+                        <span className="text-zinc-200">×{x.amount}</span>
+                      </div>
+                    </Tooltip>
                   ))}
-                </tbody>
+              </div>
+
+              <div className="text-zinc-300 inline-flex items-center gap-2">
+                <img src="/static/images/mora.png" alt="Mora" className="h-5 w-5" />
+                <span>{Intl.NumberFormat('en').format(row.materials.mora ?? 0)}</span>
+              </div>
+            </div>
+          ) : (
+            <span className="text-zinc-500">—</span>
+          )}
+        </td>
+      )}
+    </tr>
+  ))}
+</tbody>
               </table>
             </div>
 
