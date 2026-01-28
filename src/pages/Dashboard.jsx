@@ -1,14 +1,17 @@
 import React from 'react';
-//import './Dashboard.css';
+import FarmableToday from '../components/dashboard/farmableToday';
+import WelcomeCard from '../components/dashboard/welcome';
 
-import FarmableToday from '../components/FarmableToday/farmableToday';
+
 
 export default function Dashboard() {
   return (
-    <main className="min-h-screen bg-zinc-900 p-6">
-      <section className="max-w-4xl mx-auto grid gap-6">
+    <main className="min-h-screen bg-zinc-950 text-white px-6 pt-6 pb-10">
+      <div className="max-w-6xl mx-auto grid gap-4">
+        <WelcomeCard />
         <FarmableToday />
-      </section>
+      </div>
     </main>
   );
 }
+
