@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function WelcomeCard() {
   return (
-    <section className="w-full rounded-3xl border border-white/10 bg-zinc-900/70 p-6 text-white">
+    <section className="w-full rounded-xl border border-white/10 bg-zinc-900 p-6 text-white">
       <h2 className="text-2xl md:text-3xl font-black tracking-tight">
         ✨ Greetings Traveller!
       </h2>

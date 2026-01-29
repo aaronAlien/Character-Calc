@@ -10,7 +10,7 @@ export default function FarmableToday() {
   const rows = getFarmableToday(characters, day);
 
   return (
-    <div className='md:max-w-xl w-full bg-zinc-800 rounded-xl p-4'>
+    <div className='md:max-w-xl w-full border rounded-xl border-white/10 bg-zinc-900/85 p-4'>
       <h2 className='text-white mb-3'>Farmable Today</h2>
 
       {day === "sunday" ? (

@@ -91,7 +91,6 @@ export default function CharacterPage() {
     <main className='min-h-screen bg-zinc-950 text-white relative overflow-hidden'>
       {/* Hero backdrop (fixed behind content) */}
       <div className='pointer-events-none fixed inset-0 -z-0'>
-        
         {/* Soft gradient wash */}
         <div className='absolute inset-0' />
 
@@ -105,7 +104,7 @@ export default function CharacterPage() {
         </div>
 
         {/* Darkening overlay for readability */}
-        <div className='absolute inset-0 bg-zinc-950/55' />
+        <div className='absolute inset-0 bg-zinc-950/30' />
       </div>
 
       <div className='relative z-10 px-6 pt-6'>
@@ -121,12 +120,11 @@ export default function CharacterPage() {
 
       {/* Main layout */}
       <div className='relative z-10 px-6 pb-10 pt-2'>
-        <div className="max-w-4xl mx-auto grid gap-4">
-
+        <div className='max-w-5xl mx-auto grid gap-4'>
           {/* RIGHT: Info cards */}
           <div className='min-w-0 grid gap-6'>
             {/* Header */}
-            <div className='rounded-3xl bg-zinc-900/60 border border-white/10 p-6'>
+            <div className='relative overflow-hidden rounded-3xl bg-zinc-900/90 border border-white/10 p-6'>
               <div className='flex flex-wrap items-center gap-x-3 gap-y-2'>
                 <h1 className='text-4xl font-black tracking-tight'>
                   {charMeta.name}
@@ -157,10 +155,15 @@ export default function CharacterPage() {
                   {statLabel(sheet.statGrow)}
                 </span>
               </div>
+              <img
+                src={`/static/images/characters/portrait/${id}.png`}
+                alt=''
+                className='pointer-events-none select-none absolute right-6 top-1/2 -translate-y-1/2 h-28 w-28 object-contain opacity-90 hidden sm:block'
+              />
             </div>
 
             {/* Key materials strip */}
-            <div className='rounded-3xl bg-zinc-900/60 border border-white/10 p-6'>
+            <div className='rounded-3xl bg-zinc-900/90 border border-white/10 p-6'>
               <div className='flex flex-wrap gap-6 items-start'>
                 <div>
                   <div className='text-sm text-zinc-400 mb-2'>Talent Book</div>
@@ -231,7 +234,7 @@ export default function CharacterPage() {
             </div>
 
             {/* Ascension table */}
-            <div className='rounded-3xl bg-zinc-900/60 border border-white/10 p-6 overflow-x-auto'>
+            <div className='rounded-3xl bg-zinc-900/90 border border-white/10 p-6 overflow-x-auto'>
               <div className='flex items-end justify-between gap-4 mb-4'>
                 <div>
                   <h2 className='text-xl font-bold'>Ascension Planner</h2>
