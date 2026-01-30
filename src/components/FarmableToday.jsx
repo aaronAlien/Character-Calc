@@ -1,9 +1,9 @@
 import React from "react";
-import { getFarmableToday } from "../../logic/farmable/getFarmableToday";
-import { characters } from "../../data/characters";
-import { getCurrentDay } from "../../logic/getCurrentDay";
+import { getFarmableToday } from "../lib/farmable/getFarmableToday";
+import { characters } from "../data/characters";
+import { getCurrentDay } from "../lib/utils/getCurrentDay";
 import { Link } from "react-router-dom";
-import Tooltip from "../ui/Tooltip";
+import Tooltip from "./toolTip";
 
 export default function FarmableToday() {
   const day = getCurrentDay();
@@ -24,7 +24,7 @@ export default function FarmableToday() {
                 <td className='py-2 w-14'>
                   <Tooltip title={material.name}>
                     <img
-                      src={`/static/images/items/${material.id}.png`}
+                      src={`/images/items/${material.id}.png`}
                       alt={material.name}
                       className='w-12 h-12'
                     />
@@ -41,7 +41,7 @@ export default function FarmableToday() {
                     >
                       <Tooltip title={char.name}>
                         <img
-                          src={`/static/images/characters/portrait/${char.id}.png`}
+                          src={`/images/characters/portrait/${char.id}.png`}
                           alt={char.name}
                           className='inline-block w-10 h-10 rounded-full mr-2 mb-4 hover:scale-105 transition-transform'
                         />

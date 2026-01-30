@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { characters } from "../data/characters";
+import { characters } from "../../data/characters";
 
 const SORT_OPTIONS = [
   { value: "name", label: "Name (A–Z)" },
@@ -174,7 +174,7 @@ export default function AllCharacters() {
                       ].join(" ")}
                     >
                       <img
-                        src={`/static/images/elements/${el.id}.png`}
+                        src={`/images/elements/${el.id}.png`}
                         alt={el.label}
                         className='h-8 w-8 object-contain cursor-pointer'
                       />
@@ -207,7 +207,7 @@ export default function AllCharacters() {
             </div>
           </div>
 
-          {/* Right-side vertical element selector (hidden on small screens) */}
+          {/* Right-side vertical element selector (shifted on small screens) */}
           <aside className='hidden lg:flex flex-col gap-1 absolute -right-16 top-0'>
             <div className='text-xs text-zinc-400 mb-1 text-center'>
               Element
@@ -230,7 +230,7 @@ export default function AllCharacters() {
                     ].join(" ")}
                   >
                     <img
-                      src={`/static/images/elements/${el.id}.png`}
+                      src={`/images/elements/${el.id}.png`}
                       alt={el.label}
                       className='h-8 w-8 object-contain cursor-pointer'
                     />
@@ -292,7 +292,7 @@ export default function AllCharacters() {
                 <div className='p-3'>
                   <div className=' overflow-hidden'>
                     <img
-                      src={`/static/images/characters/portrait/${c.id}.png`}
+                      src={`/images/characters/portrait/${c.id}.png`}
                       alt={c.name}
                       className='w-18 h-auto mx-auto block opacity-95 group-hover:opacity-100 transition'
                       loading='lazy'
@@ -305,7 +305,7 @@ export default function AllCharacters() {
                       <div className='flex items-center gap-2 min-w-0'>
                         {c.element?.id && (
                           <img
-                            src={`/static/images/elements/${c.element.id}.png`}
+                            src={`/images/elements/${c.element.id}.png`}
                             alt={c.element.name}
                             className='h-4 w-4 object-contain flex-shrink-0'
                             loading='lazy'

@@ -1,8 +1,10 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import AllCharacters from "./pages/AllCharacters";
-import Dashboard from "./pages/Dashboard";
-import CharacterPage from "./pages/CharacterPage";
-import Footer from "./components/ui/Footer";
+import Dashboard from "./dashboard/Dashboard";
+import CharacterPage from "./characters/CharacterPage";
+import AllCharacters from "./characters/AllCharacters";
+import TodoPage from "./todo/ToDoPage";
+import CalculatorPage from "./calculator/CalculatorPage";
+import Footer from '../components/Footer'
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
       <Route path='/characters/:id' element={<CharacterPage />} />
       <Route path='*' element={<Navigate to='/' replace />} />
       <Route path='/characters' element={<AllCharacters />} />
+      <Route path='/todo' element={<TodoPage />} />
+      <Route path='/calculator' element={<CalculatorPage />} />
     </Routes>
     </div>
 

@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import Tooltip from "../components/ui/Tooltip.jsx";
-import { characters } from "../data/characters.js";
-import { itemGroup } from "../data/itemGroup.js"; // if you have it; if not, see note below
-import { loadCharacterSheet } from "../logic/loadCharacterData.js";
+import Tooltip from "../../components/toolTip.jsx";
+import { characters } from "../../data/characters.js";
+import { itemGroup } from "../../data/itemGroup.js"; // if you have it; if not, see note below
+import { loadCharacterSheet } from "../../lib/loadCharacterData.js";
 
 function rarityStars(rarity) {
   return "★★★★★".slice(0, rarity ?? 0);
@@ -97,7 +97,7 @@ export default function CharacterPage() {
         {/* Character art */}
         <div className='absolute inset-0 flex items-start justify-center pt-24'>
           <img
-            src={`/static/images/characters/full/${id}.png`}
+            src={`/images/characters/full/${id}.png`}
             alt=''
             className='h-full w-auto object-contain opacity-80 md:opacity-90'
           />
@@ -133,7 +133,7 @@ export default function CharacterPage() {
                 {/* element icon */}
                 {charMeta.element?.id && (
                   <img
-                    src={`/static/images/elements/${charMeta.element.id}.png`}
+                    src={`/images/elements/${charMeta.element.id}.png`}
                     alt={charMeta.element.name}
                     className='h-8 w-8 object-contain'
                   />
@@ -156,9 +156,9 @@ export default function CharacterPage() {
                 </span>
               </div>
               <img
-                src={`/static/images/characters/portrait/${id}.png`}
+                src={`/images/characters/portrait/${id}.png`}
                 alt=''
-                className='pointer-events-none select-none absolute right-6 top-1/2 -translate-y-1/2 h-28 w-28 object-contain opacity-90 hidden sm:block'
+                className='pointer-events-none select-none absolute right-6 top-1/2 -translate-y-1/2 h-28 w-28 object-contain opacity-90 hidden md:block'
               />
             </div>
 
@@ -172,7 +172,7 @@ export default function CharacterPage() {
                       <div className='flex items-center gap-3'>
                         <div className='h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2'>
                           <img
-                            src={`/static/images/items/${bookId}.png`}
+                            src={`/images/items/${bookId}.png`}
                             alt={book?.name ?? bookId}
                             className='h-full w-full object-contain'
                           />
@@ -196,7 +196,7 @@ export default function CharacterPage() {
                     <Tooltip title={bossItem.name ?? bossItem.id}>
                       <div className='h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2'>
                         <img
-                          src={`/static/images/items/${bossItem.id}.png`}
+                          src={`/images/items/${bossItem.id}.png`}
                           alt={bossItem.name ?? bossItem.id}
                           className='h-full w-full object-contain'
                         />
@@ -221,7 +221,7 @@ export default function CharacterPage() {
                         >
                           <div className='h-12 w-12 rounded-2xl bg-black/30 border border-white/10 p-2'>
                             <img
-                              src={`/static/images/items/${x.item.id}.png`}
+                              src={`/images/items/${x.item.id}.png`}
                               alt={x.item.name ?? x.item.id}
                               className='h-full w-full object-contain'
                             />
@@ -313,7 +313,7 @@ export default function CharacterPage() {
                                     >
                                       <div className='inline-flex items-center gap-1 rounded-2xl border border-white/10 bg-black/20 px-2 py-1'>
                                         <img
-                                          src={`/static/images/items/${x.item.id}.png`}
+                                          src={`/images/items/${x.item.id}.png`}
                                           alt={x.item.name ?? x.item.id}
                                           className='h-6 w-6 object-contain'
                                         />
@@ -327,7 +327,7 @@ export default function CharacterPage() {
 
                               <div className='text-zinc-300 inline-flex items-center gap-2'>
                                 <img
-                                  src='/static/images/mora.png'
+                                  src='/images/mora.png'
                                   alt='Mora'
                                   className='h-5 w-5'
                                 />

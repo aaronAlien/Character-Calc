@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { getFarmableToday } from './../src/logic/farmable/getFarmableToday.js';
+import { getFarmableToday } from './getFarmableToday.js';
 
 test('groups characters by talent book available today', () => {
   const mockCharacters = {
