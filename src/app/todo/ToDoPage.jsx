@@ -61,7 +61,7 @@ export default function TodoPage() {
                   {todo.icon?.kind === 'character' ? (
                     <img
                       className="w-10 h-10 rounded-full object-cover"
-                      src={`/images/characters/${todo.icon.id}.png`}
+                      src={`/images/characters/portrait/${todo.icon.id}.png`}
                       alt=""
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
