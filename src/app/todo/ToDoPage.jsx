@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { todoStore, useTodos } from '../../stores/todoStore';
+import { itemList } from '../../data/itemList';
 
 function sumResources(todos) {
   const summary = {};
@@ -48,7 +49,104 @@ export default function TodoPage() {
             </button>
           </div>
 
-          {/* Summary */}
+          {/* Todo cards */}
+          <section className="mt-6 grid gap-4 md:grid-cols-2">
+            {todos.map((todo, index) => (
+              <article
+                key={todo.id}
+                className="rounded-3xl border border-white/10 bg-zinc-900/50 p-5"
+              >
+                <div className="flex items-center gap-3">
+                  {/* icon */}
+                  {todo.icon?.kind === 'character' ? (
+                    <img
+                      className="w-10 h-10 rounded-full object-cover"
+                      src={`/images/characters/${todo.icon.id}.png`}
+                      alt=""
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-white/5" />
+                  )}
+
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold truncate">
+                      {todo.title ?? (todo.type === 'character' ? 'Character' : 'Items')}
+                    </div>
+                    {todo.level ? (
+                      <div className="text-zinc-400 text-sm">
+                        Level {todo.level.from} → {todo.level.to}
+                      </div>
+                    ) : (
+                      <div className="text-zinc-400 text-sm"># {index + 1}</div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      className="border border-white/10 rounded-lg px-2 py-1 text-zinc-300 hover:text-white disabled:opacity-40"
+                      onClick={() => todoStore.moveTodo(todo.id, -1)}
+                      disabled={index === 0}
+                      title="Move up"
+                      type="button"
+                    >
+                      ←
+                    </button>
+                    <button
+                      className="border border-white/10 rounded-lg px-2 py-1 text-zinc-300 hover:text-white disabled:opacity-40"
+                      onClick={() => todoStore.moveTodo(todo.id, 1)}
+                      disabled={index === todos.length - 1}
+                      title="Move down"
+                      type="button"
+                    >
+                      →
+                    </button>
+                    <button
+                      className="border border-white/10 rounded-lg px-2 py-1 text-zinc-300 hover:text-white"
+                      onClick={() => todoStore.deleteTodo(todo.id)}
+                      title="Delete"
+                      type="button"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-4 overflow-x-auto">
+                  <table className="w-full min-w-[380px]">
+                    <tbody>
+                      {Object.entries(todo.resources || {})
+                        .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))
+                        .map(([id, amount]) => (
+                          <tr key={id} className="border-b border-white/10">
+                            <td className="py-2 text-right pr-3 tabular-nums text-zinc-100">
+                              {Intl.NumberFormat().format(amount)}
+                            </td>
+                            <td className="py-2 text-zinc-200">
+                              <span className="inline-flex items-center gap-2">
+                                <img
+                                  className="w-6 h-6 object-contain"
+                                  src={`/images/items/${id}.png`}
+                                  alt={itemList[id]?.name ?? id}
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                                <span className="font-medium">{itemList[id]?.name ?? id}</span>
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+            ))}
+          </section>
+
+                    {/* Summary */}
           <section className="mt-6 rounded-3xl border border-white/10 bg-zinc-900/50 p-5">
             <h2 className="text-lg font-semibold">Summary</h2>
 
@@ -70,13 +168,13 @@ export default function TodoPage() {
                             {/* If you have item icons available, you can enable these paths */}
                             <img
                               className="w-6 h-6 object-contain"
-                              src={`/static/images/items/${id}.png`}
-                              alt=""
+                              src={`/images/items/${id}.png`}
+                              alt={itemList[id]?.name ?? id}
                               onError={(e) => {
                                 e.currentTarget.style.display = 'none';
                               }}
                             />
-                            <span className="font-medium">{id}</span>
+                            <span className="font-medium">{itemList[id]?.name ?? id}</span>
                           </span>
 
                           {/* lightweight decrement buttons (optional now, but handy) */}
@@ -115,102 +213,6 @@ export default function TodoPage() {
             )}
           </section>
 
-          {/* Todo cards */}
-          <section className="mt-6 grid gap-4 md:grid-cols-2">
-            {todos.map((todo, index) => (
-              <article
-                key={todo.id}
-                className="rounded-3xl border border-white/10 bg-zinc-900/50 p-5"
-              >
-                <div className="flex items-center gap-3">
-                  {/* icon */}
-                  {todo.icon?.kind === 'character' ? (
-                    <img
-                      className="w-10 h-10 rounded-full object-cover"
-                      src={`/static/images/characters/${todo.icon.id}.png`}
-                      alt=""
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-white/5" />
-                  )}
-
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold truncate">
-                      {todo.title ?? (todo.type === 'character' ? 'Character' : 'Items')}
-                    </div>
-                    {todo.level ? (
-                      <div className="text-zinc-400 text-sm">
-                        Level {todo.level.from} → {todo.level.to}
-                      </div>
-                    ) : (
-                      <div className="text-zinc-400 text-sm"># {index + 1}</div>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      className="border border-white/10 rounded-lg px-2 py-1 text-zinc-300 hover:text-white disabled:opacity-40"
-                      onClick={() => todoStore.moveTodo(todo.id, -1)}
-                      disabled={index === 0}
-                      title="Move up"
-                      type="button"
-                    >
-                      ↑
-                    </button>
-                    <button
-                      className="border border-white/10 rounded-lg px-2 py-1 text-zinc-300 hover:text-white disabled:opacity-40"
-                      onClick={() => todoStore.moveTodo(todo.id, 1)}
-                      disabled={index === todos.length - 1}
-                      title="Move down"
-                      type="button"
-                    >
-                      ↓
-                    </button>
-                    <button
-                      className="border border-white/10 rounded-lg px-2 py-1 text-zinc-300 hover:text-white"
-                      onClick={() => todoStore.deleteTodo(todo.id)}
-                      title="Delete"
-                      type="button"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full min-w-[380px]">
-                    <tbody>
-                      {Object.entries(todo.resources || {})
-                        .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))
-                        .map(([id, amount]) => (
-                          <tr key={id} className="border-b border-white/10">
-                            <td className="py-2 text-right pr-3 tabular-nums text-zinc-100">
-                              {Intl.NumberFormat().format(amount)}
-                            </td>
-                            <td className="py-2 text-zinc-200">
-                              <span className="inline-flex items-center gap-2">
-                                <img
-                                  className="w-6 h-6 object-contain"
-                                  src={`/static/images/items/${id}.png`}
-                                  alt=""
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = 'none';
-                                  }}
-                                />
-                                <span className="font-medium">{id}</span>
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
-              </article>
-            ))}
-          </section>
         </div>
       </div>
     </main>
