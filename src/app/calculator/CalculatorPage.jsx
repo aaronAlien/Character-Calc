@@ -437,13 +437,13 @@ export default function CalculatorPage() {
                                   <span className="inline-flex items-center gap-2">
                                     <img
                                       className="w-6 h-6 object-contain"
-                                      src={`/static/images/items/${id}.png`}
+                                      src={`/images/items/${id}.png`}
                                       alt=""
                                       onError={(e) => {
                                         e.currentTarget.style.display = 'none';
                                       }}
                                     />
-                                    <span className="text-zinc-200 font-medium">{id}</span>
+                                    <span className="text-zinc-200 font-medium">{itemList[id]?.name ?? id}</span>
                                   </span>
                                 </td>
                               </tr>

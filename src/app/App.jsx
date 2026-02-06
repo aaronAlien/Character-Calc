@@ -5,10 +5,11 @@ import AllCharacters from "./characters/AllCharacters";
 import TodoPage from "./todo/ToDoPage";
 import CalculatorPage from "./calculator/CalculatorPage";
 import Footer from '../components/Footer'
+import '../styles/index.css'
 
 export default function App() {
   return (
-    <div className="flex min-h-screen flex-col bg-black">
+    <div className="flex main min-h-screen flex-col bg-black">
       {/* Main content */}
       <div className="flex-1">
     <Routes>

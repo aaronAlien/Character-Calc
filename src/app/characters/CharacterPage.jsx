@@ -238,10 +238,6 @@ export default function CharacterPage() {
               <div className='flex items-end justify-between gap-4 mb-4'>
                 <div>
                   <h2 className='text-xl font-bold'>Ascension Planner</h2>
-                  <p className='text-sm text-zinc-400'>
-                    Clean rows (cap stats + mats). We can add the
-                    “two-rows-per-phase” view later if you want.
-                  </p>
                 </div>
               </div>
 

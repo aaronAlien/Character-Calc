@@ -5,30 +5,25 @@
   --font-snpro: "SN Pro", sans-serif;
   --font-archivoBlack: "Archivo Black", sans-serif;
   --font-averiao: "Averia Sans Libre", sans-serif;
+  --font-cherrySwash: "Cherry Swash", serif;
   --font-specialGothic: "Special Gothic Expanded One", sans-serif;
 }
 
 @layer base {
-  body {
+  main {
     font-family: var(--font-rubik);
+    background: hsla(0, 0%, 0%, 1);
   }
-
-  h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    font-family: var(--font-archivoBlack);
+    font-family: var(--font-averiao);
+    font-weight: 700;
   }
-}
-
-@layer components {
-  .dashboard {
-    background-image: url('/static/images/bkgrnd.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-blend-mode: soft-light;
+  h1 {
+    font-family: var(--font-averiao);
+    font-weight: 700;
   }
 }

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black/40">
+    <footer className="border-t border-white/10 bg-violet-950/50 backdrop-blur-sm">
       <div className="mx-auto w-full px-6 py-6 text-xs text-zinc-400 text-center">
         <p>
           Genshin Impact, all game content, images, characters, and trademarks
