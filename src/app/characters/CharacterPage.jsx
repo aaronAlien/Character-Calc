@@ -109,8 +109,8 @@ export default function CharacterPage() {
 
       <div className='relative z-10 px-6 pt-6'>
         <div className='max-w-6xl mx-auto flex items-center justify-between'>
-          <Link className='text-zinc-300 hover:text-white' to='/'>
-            ← Dashboard
+          <Link className='text-zinc-300 hover:text-white' to='/characters'>
+            ← All Characters
           </Link>
           <div className='text-zinc-400/60 text-xs font-mono'>
             /characters/{id}

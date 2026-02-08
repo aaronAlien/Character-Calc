@@ -281,7 +281,7 @@ export default function AllCharacters() {
           )}
 
           {/* Grid */}
-          <div className='grid sm:gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
+          <div className='grid sm:gap-2 grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
             {list.map((c) => (
               <Link
                 key={c.id}
@@ -294,7 +294,7 @@ export default function AllCharacters() {
                     <img
                       src={`/images/characters/portrait/${c.id}.png`}
                       alt={c.name}
-                      className='w-18 h-auto mx-auto block opacity-95 group-hover:opacity-100 transition'
+                      className='w-14 md:w-18 h-auto mx-auto block opacity-95 group-hover:opacity-100 transition'
                       loading='lazy'
                     />
                   </div>
@@ -311,7 +311,7 @@ export default function AllCharacters() {
                             loading='lazy'
                           />
                         )}
-                        <p className='font-semibold text-zinc-100 truncate'>
+                        <p className='font-semibold text-sm md:text-base text-zinc-100 truncate'>
                           {c.name}
                         </p>
                       </div>
@@ -325,7 +325,7 @@ export default function AllCharacters() {
                     {c.rarity && (
                       <div
                         className={[
-                          "flex-shrink-0 text-xs rounded-xl border px-2 py-1 bg-black/20",
+                          "flex-shrink-0 text-xs mt-4 md:mt-0 rounded-xl border px-2 py-1 bg-black/20",
                           c.rarity === 5 &&
                             "text-amber-400 border-yellow-400/30",
                           c.rarity === 4 &&

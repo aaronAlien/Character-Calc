@@ -14,7 +14,20 @@ export default function FarmableToday() {
       <h2 className='text-white text-xl mb-3'>Available Today</h2>
 
       {day === "sunday" ? (
-        <p className='text-zinc-300'>All domains are open today.</p>
+        <div className="flex flex-col items-center justify-center py-0 text-center">
+          <p className='text-zinc-300 text-xl font-bold'>All domains are open!</p>
+
+        <img
+      src="/images/keqing_2.png"
+      alt="All domains open"
+      className="max-h-36 md:max-h-72 opacity-80"
+    />
+        
+        
+        <span className="text-zinc-300 text-sm italic">All Talent Book and Weapon Ascension material domains are open on Sundays.</span>
+        
+      </div>
+
       ) : (
         <table className='w-full'>
           <tbody>
