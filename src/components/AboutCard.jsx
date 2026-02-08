@@ -4,7 +4,7 @@ export default function DashboardAboutCard() {
   return (
     <section className='relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/85 hover:bg-violet-800/50 hover:border-transparent transition duration-500 ease-in-out'>
       <a
-        href='https://www.google.com'
+        href='https://github.com/aaronAlien/v2_Daily_Genshin'
         target='_blank'
         rel='noopener noreferrer'
         aria-label="link to GitHub"
