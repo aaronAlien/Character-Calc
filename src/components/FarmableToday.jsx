@@ -39,7 +39,7 @@ export default function FarmableToday() {
                     <img
                       src={`/images/items/${material.id}.png`}
                       alt={material.name}
-                      className='w-12 h-12'
+                      className='w-10 sm:w-12 h-10 sm:h-12'
                     />
                   </Tooltip>
                 </td>
@@ -56,7 +56,7 @@ export default function FarmableToday() {
                         <img
                           src={`/images/characters/portrait/${char.id}.png`}
                           alt={char.name}
-                          className='inline-block w-10 h-10 rounded-full mr-2 hover:scale-105 transition-transform'
+                          className='inline-block w-8 sm:w-10 h-8 sm:h-10 mb-2 sm:mb-0 rounded-full mr-2 hover:scale-105 transition-transform'
                         />
                       </Tooltip>
                     </Link>

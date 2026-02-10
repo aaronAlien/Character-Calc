@@ -1,24 +1,9 @@
-**_This project was inspired by and uses data/assets from [Paimon.moe](https://github.com/MadeBaruna/paimon-moe) (MIT)_**
+This project is a rebuild of a personal tool, redesigned to explore modern frontend architecture, data modeling and testable application logic.
 
-**_additional assets from [genshinimpactresources](https://genshinimpactresources.tumblr.com/post/806607469689389056/genshin-impact-comment-decorations-all-character)_**
+I studied the publicly available data structures and logic to understand the complex game data, dependency relationships, calculation flow and normalisation - then rebuilt the functionality using my a different architecture and React based UI.
+#
+**_This project was inspired by and informed by the open source project [Paimon.moe](https://github.com/MadeBaruna/paimon-moe)_**
 
-_All Genshin Impact game content, images, characters, and trademarks are the property of HoYoverse. This project is not affiliated with or endorsed by HoYoverse._
+**_With additional assets from [genshinimpactresources](https://genshinimpactresources.tumblr.com/post/806607469689389056/genshin-impact-comment-decorations-all-character)_**
 
----
-
-## Project History
-
-
-This is a reimplementation of a fun, personal project built earlier in my learning journey.
-
-**Original Version**
-- _vanilla javascript_
-- _simple public api data_
-
-**Current Version**
-- _React + Vite_
-- _Studied the [Paimon.moe project](https://github.com/MadeBaruna/paimon-moe) (MIT) to understand its data structures and logic, then integrated the relevant data into this project_
-- _Reimplemented the original Svelte logic in React_
-- _Rebuilt the functionality in React using a different architecture_
-- _Native unit testing_
-- _AI-assisted analysis and refactoring_
+>_All Genshin Impact game content, images, characters, and trademarks are the property of HoYoverse. This project is not affiliated with or endorsed by HoYoverse._

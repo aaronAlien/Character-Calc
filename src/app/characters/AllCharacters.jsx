@@ -106,7 +106,7 @@ export default function AllCharacters() {
 
   return (
     <main className='min-h-screen bg-zinc-950 text-white'>
-      {/* Header */}
+      {/* header */}
       <div className='px-6 pt-6'>
         <div className='max-w-6xl mx-auto flex items-center justify-between gap-4'>
           <div>
@@ -121,18 +121,18 @@ export default function AllCharacters() {
             <h1 className='mt-3 text-3xl md:text-4xl font-black tracking-tight'>
               All Characters
             </h1>
-            <p className='text-zinc-300 mt-2'>
-              Sort and filter. Click a character to view details.
+            <p className='text-zinc-300 mt-2 text-sm sm:text-base'>
+              Select element to filter. Select a character to view details.
             </p>
           </div>
 
-          {/* Sort dropdown (always visible) */}
+          {/* sort dropdown */}
           <div className='w-56'>
             <label className='block text-xs text-zinc-400 mb-2'>Sort by</label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className='w-full rounded-2xl border border-white/10 bg-zinc-900/70 px-3 py-2 text-white outline-none'
+              className='w-full rounded-2xl border border-white/10 bg-zinc-900/70 px-0 pl-2 py-2 text-white outline-none text-xs sm:text-base'
             >
               {SORT_OPTIONS.map((opt) => (
                 <option
@@ -148,10 +148,10 @@ export default function AllCharacters() {
         </div>
       </div>
 
-      {/* Content area */}
+      {/* main content area */}
       <div className='px-6 pb-10 pt-6'>
         <div className='max-w-6xl mx-auto relative'>
-          {/* Mobile / tablet element selector */}
+          {/* mobile / tablet element selector - top*/}
           <div className='lg:hidden mb-4'>
             <div className='flex items-center gap-1 overflow-x-auto pb-2'>
               {ELEMENTS.map((el) => {
@@ -207,7 +207,7 @@ export default function AllCharacters() {
             </div>
           </div>
 
-          {/* Right-side vertical element selector (shifted on small screens) */}
+          {/* vertical element selector - right - lg screens */}
           <aside className='hidden lg:flex flex-col gap-1 absolute -right-16 top-0'>
             <div className='text-xs text-zinc-400 mb-1 text-center'>
               Element
@@ -259,7 +259,7 @@ export default function AllCharacters() {
             )}
           </aside>
 
-          {/* Active filter pill */}
+          {/* active filter pill */}
           {elementFilter.size > 0 && (
             <div className='mb-4 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-zinc-900/60 px-3 py-2'>
               <span className='text-sm text-zinc-200'>
@@ -280,7 +280,7 @@ export default function AllCharacters() {
             </div>
           )}
 
-          {/* Grid */}
+          {/* GRID */}
           <div className='grid sm:gap-2 grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
             {list.map((c) => (
               <Link
@@ -346,7 +346,7 @@ export default function AllCharacters() {
             ))}
           </div>
 
-          {/* Empty state */}
+          {/* empty state */}
           {list.length === 0 && (
             <div className='mt-10 text-zinc-300'>
               No characters match the current filter.
@@ -354,7 +354,7 @@ export default function AllCharacters() {
           )}
         </div>
       </div>
-      {/* Back to top */}
+      {/* back to top */}
       {showBackToTop && (
         <button
           type='button'

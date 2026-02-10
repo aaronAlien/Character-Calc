@@ -10,7 +10,7 @@
 }
 
 @layer base {
-  main {
+  body {
     font-family: var(--font-rubik);
     background: hsla(0, 0%, 0%, 1);
   }

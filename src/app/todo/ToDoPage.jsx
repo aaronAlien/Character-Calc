@@ -24,7 +24,7 @@ export default function TodoPage() {
 
   return (
     <main className='min-h-screen bg-zinc-950 text-white'>
-      {/* Header */}
+      {/* header */}
       <div className='px-6 pt-6'>
         <div className='max-w-6xl mx-auto flex items-center justify-between'>
           <Link className='text-zinc-300 hover:text-white' to='/'>
@@ -49,7 +49,7 @@ export default function TodoPage() {
             </button>
           </div>
 
-          {/* Todo cards */}
+          {/* todo cards */}
           <section className='mt-6 grid gap-4 md:grid-cols-2'>
             {todos.map((todo, index) => (
               <article
@@ -154,7 +154,7 @@ export default function TodoPage() {
             ))}
           </section>
 
-          {/* Summary */}
+          {/* summary */}
           <section className='mt-6 rounded-3xl border border-white/10 bg-zinc-900/50 p-5'>
             <h2 className='text-lg font-semibold'>Summary</h2>
 
@@ -168,7 +168,7 @@ export default function TodoPage() {
                 
           <Link
             to="/calculator"
-            className="flex items-center w-sm mx-auto mt-6 justify-center rounded-2xl border border-white/15 px-4 py-2 text-white hover:bg-white/5 transition"
+            className="flex items-center sm:w-sm mx-auto mt-6 justify-center rounded-2xl border border-white/15 px-4 py-2 text-white hover:bg-white/5 transition"
           >
             Add via calculator →
           </Link>

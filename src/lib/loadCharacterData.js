@@ -1,9 +1,9 @@
 const sheets = import.meta.glob('../data/characterData/*.json', { eager: true });
 
-console.log(
+/*console.log(
   'Loaded characterData files:',
   Object.keys(sheets)
-);
+); */
 
 
 export function loadCharacterSheet(id) {

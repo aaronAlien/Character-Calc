@@ -10,7 +10,7 @@ import '../styles/index.css'
 export default function App() {
   return (
     <div className="flex main min-h-screen flex-col bg-black">
-      {/* Main content */}
+      {/* main content */}
       <div className="flex-1">
     <Routes>
       <Route path='/' element={<Dashboard />} />

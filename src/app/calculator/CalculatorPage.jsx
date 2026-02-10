@@ -43,7 +43,7 @@ export default function CalculatorPage() {
 
   const selectedCharacter = characterId ? characters[characterId] : null;
 
-  // derived ascensions (match Svelte behavior: asc derived from level)
+  // derived ascensions (asc derived from level)
   const currentAscension = useMemo(
     () => calculatorHelpers.getMinAscensionFromLevel(num(currentLevel)),
     [currentLevel]
@@ -58,7 +58,7 @@ export default function CalculatorPage() {
     [intendedAscension]
   );
 
-  // keep withTalent off if withAscension toggled off (match Svelte)
+  // keep withTalent off if withAscension toggled off 
   function toggleWithAscension(next) {
     setWithAscension(next);
     if (!next) setWithTalent(false);
@@ -213,7 +213,7 @@ export default function CalculatorPage() {
                 </div>
               )}
 
-              {/* Current */}
+              {/* current */}
               <div className="mt-6 grid gap-4 md:grid-cols-2">
                 <div>
                   <div className="text-sm text-zinc-400 mb-2">Current</div>
@@ -255,7 +255,7 @@ export default function CalculatorPage() {
                   </div>
                 </div>
 
-                {/* Intended */}
+                {/* intended */}
                 <div>
                   <div className="text-sm text-zinc-400 mb-2">Target</div>
                   <div className="grid gap-3">
@@ -290,7 +290,7 @@ export default function CalculatorPage() {
                 </div>
               </div>
 
-              {/* EXP resources */}
+              {/* exp resources */}
               <div className="mt-6">
                 <div className="text-sm text-zinc-400 mb-2">EXP Resources</div>
                 <div className="grid gap-2">
@@ -308,7 +308,7 @@ export default function CalculatorPage() {
                 </div>
               </div>
 
-              {/* Talents */}
+              {/* talents */}
               {withTalent && (
                 <div className="mt-6">
                   <div className="text-sm text-zinc-400 mb-2">Talents</div>
@@ -363,7 +363,7 @@ export default function CalculatorPage() {
                 </div>
               )}
 
-              {/* Calculate button */}
+              {/* calculate button */}
               <div className="mt-6 flex items-center gap-3">
                 <button
                   type="button"
@@ -380,7 +380,7 @@ export default function CalculatorPage() {
               </div>
             </section>
 
-            {/* RIGHT: results */}
+            {/* results - right */}
             <section className="rounded-3xl border border-white/10 bg-zinc-900/50 p-5">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Result</h2>

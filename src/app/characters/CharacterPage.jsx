@@ -1,9 +1,8 @@
 import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-
 import Tooltip from "../../components/toolTip.jsx";
 import { characters } from "../../data/characters.js";
-import { itemGroup } from "../../data/itemGroup.js"; // if you have it; if not, see note below
+import { itemGroup } from "../../data/itemGroup.js"; 
 import { loadCharacterSheet } from "../../lib/loadCharacterData.js";
 
 function rarityStars(rarity) {
@@ -23,21 +22,21 @@ function formatGrowValue(sheet, statGrow, idx) {
   if (statGrow === "em") return Math.round(v);
   if (statGrow === "critRate" || statGrow === "critDamage")
     return `${(v * 100).toFixed(1)}%`;
-  // most other growth stats are % arrays
+  // most other growth stats are % arr
   return `${(v * 100).toFixed(1)}%`;
 }
 
 export default function CharacterPage() {
   const { id } = useParams();
 
-  console.log("has aino in characters?", Boolean(characters.aino));
+  /* console.log("has aino in characters?", Boolean(characters.aino));
   console.log("some character keys:", Object.keys(characters).slice(0, 10));
-  console.log("id from route:", id);
+  console.log("id from route:", id); */
 
   const charMeta = characters[id];
   const sheet = loadCharacterSheet(id);
 
-  // Basic not-found handling
+  // not found handling
   if (!charMeta || !sheet) {
     return (
       <main className='min-h-screen bg-zinc-950 text-white p-6'>
@@ -54,13 +53,13 @@ export default function CharacterPage() {
     );
   }
 
-  // Data used by the page
+  // data used 
   const bookId = charMeta.material?.book?.[0]?.id;
   const book = bookId ? itemGroup?.[bookId] : null;
   const bossItem = charMeta.material?.boss ?? null;
   const ascMaterials = charMeta.ascension ?? [];
 
-  // 2-rows-per-phase display recipe (mirrors original logic)
+  // 2 rows per phase 
   const ascTable = useMemo(() => {
     // these indices/labels are tuned to the data arrays in characterData JSON
     const showedIndex = [1, 20, 21, 41, 42, 52, 53, 63, 64, 74, 75, 85, 86, 96];
@@ -77,7 +76,7 @@ export default function CharacterPage() {
         atk: Math.round(sheet.atk?.[idx] ?? 0),
         def: Math.round(sheet.def?.[idx] ?? 0),
         grow: formatGrowValue(sheet, sheet.statGrow, idx),
-        // Materials show once per phase; for asc > 0 use previous phase materials (same as original)
+        // materials show once per phase; for asc > 0 use previous phase materials
         materials:
           ascLabel[i] > 0 ? (ascMaterials?.[ascLabel[i] - 1] ?? null) : null,
         isPhaseHeaderRow: i % 2 === 0, // row 0,2,4,... gets the rowSpan cells
@@ -89,12 +88,12 @@ export default function CharacterPage() {
 
   return (
     <main className='min-h-screen bg-zinc-950 text-white relative overflow-hidden'>
-      {/* Hero backdrop (fixed behind content) */}
+      {/* hero backdrop character art */}
       <div className='pointer-events-none fixed inset-0 -z-0'>
-        {/* Soft gradient wash */}
+        {/* soft gradient wash */}
         <div className='absolute inset-0' />
 
-        {/* Character art */}
+        {/* character art img */}
         <div className='absolute inset-0 flex items-start justify-center pt-24'>
           <img
             src={`/images/characters/full/${id}.png`}
@@ -103,7 +102,7 @@ export default function CharacterPage() {
           />
         </div>
 
-        {/* Darkening overlay for readability */}
+        {/* overlay for readability */}
         <div className='absolute inset-0 bg-zinc-950/30' />
       </div>
 
@@ -118,10 +117,10 @@ export default function CharacterPage() {
         </div>
       </div>
 
-      {/* Main layout */}
+      {/* main layout */}
       <div className='relative z-10 px-6 pb-10 pt-2'>
         <div className='max-w-5xl mx-auto grid gap-4'>
-          {/* RIGHT: Info cards */}
+          {/* info card - right */}
           <div className='min-w-0 grid gap-6'>
             {/* Header */}
             <div className='relative overflow-hidden rounded-3xl bg-zinc-900/90 border border-white/10 p-6'>
@@ -148,7 +147,7 @@ export default function CharacterPage() {
                 {sheet.description}
               </p>
 
-              {/* Highlight stat grow */}
+              {/* highlight stat grow */}
               <div className='mt-4 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-4 py-2'>
                 <span className='text-zinc-400 text-sm'>Ascension Bonus</span>
                 <span className='font-semibold'>
@@ -162,7 +161,7 @@ export default function CharacterPage() {
               />
             </div>
 
-            {/* Key materials strip */}
+            {/* key materials strip */}
             <div className='rounded-3xl bg-zinc-900/90 border border-white/10 p-6'>
               <div className='flex flex-wrap gap-6 items-start'>
                 <div>
@@ -233,7 +232,7 @@ export default function CharacterPage() {
               </div>
             </div>
 
-            {/* Ascension table */}
+            {/* ascension table */}
             <div className='rounded-3xl bg-zinc-900/90 border border-white/10 p-6 overflow-x-auto'>
               <div className='flex items-end justify-between gap-4 mb-4'>
                 <div>
@@ -262,7 +261,7 @@ export default function CharacterPage() {
                       key={row.i}
                       className='border-b border-white/5 align-top'
                     >
-                      {/* ASC cell once per phase (rowSpan=2) */}
+                      {/* asc cell once per phase (rowSpan=2) */}
                       {row.isPhaseHeaderRow && (
                         <td
                           rowSpan={2}
@@ -282,7 +281,7 @@ export default function CharacterPage() {
                       <td className='py-3 pr-3'>{row.atk}</td>
                       <td className='py-3 pr-3'>{row.def}</td>
 
-                      {/* Bonus stat once per phase */}
+                      {/* bonus stat once per phase */}
                       {row.isPhaseHeaderRow && (
                         <td
                           rowSpan={2}
@@ -292,7 +291,7 @@ export default function CharacterPage() {
                         </td>
                       )}
 
-                      {/* Materials once per phase */}
+                      {/* materials once per phase */}
                       {row.isPhaseHeaderRow && (
                         <td rowSpan={2} className='py-3 align-middle'>
                           {row.materials ? (

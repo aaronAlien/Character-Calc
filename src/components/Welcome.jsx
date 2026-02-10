@@ -6,13 +6,12 @@ export default function WelcomeCard() {
       <h1 className='text-4xl md:text-5xl'>Greetings Traveller</h1>
 
       <p className='mt-3 text-zinc-200 text-sm md:text-base'>
-        My Genshin allows you to track daily farming, browse character info and
-        track ascension materials in a lightweight and efficient way.
+        Character Calc allows you to track daily farming, browse character info
+        <br /> & track ascension materials in a lightweight and efficient way.
       </p>
 
       <p className='mt-2 text-xs md:text-sm font-light italic text-zinc-300'>
-        This is a fan-made resource for Genshin Impact players. It is not
-        affiliated with miHoYo...
+
       </p>
     </section>
   );
