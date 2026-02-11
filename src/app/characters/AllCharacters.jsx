@@ -105,7 +105,7 @@ export default function AllCharacters() {
   }
 
   return (
-    <main className='min-h-screen bg-zinc-950 text-white'>
+    <main className='min-h-screen bg-gradient-to-r from-zinc-900 to-black text-white'>
       {/* header */}
       <div className='px-6 pt-6'>
         <div className='max-w-6xl mx-auto flex items-center justify-between gap-4'>

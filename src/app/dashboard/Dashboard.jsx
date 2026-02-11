@@ -9,7 +9,7 @@ import DashboardAboutCard from "../../components/AboutCard";
 
 export default function Dashboard() {
   return (
-    <main className='dashboard min-h-screen bg-zinc-950 text-white pt-6 pb-10'>
+    <main className='dashboard min-h-screen bg-gradient-to-r from-zinc-900 to-black text-white pt-6 pb-10'>
       <div className='max-w-sm px-4 md:px-2 lg:px-0 sm:max-w-4xl mx-auto grid gap-4 lg:grid-cols-3 lg:auto-rows-min'>
         <div className='absolute inset-0 flex justify-center'>
           <img
