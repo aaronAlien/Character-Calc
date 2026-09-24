@@ -44,7 +44,7 @@ test('groups characters by talent book available today', () => {
 
   assert.equal(result.length, 1);
   assert.equal(result[0].material.id, 'teachings_of_freedom');
-  assert.deepEqual(result[0].characters.sort(), ['aino', 'amber']);
+  assert.deepEqual(result[0].characters.map((c) => c.id).sort(), ['aino', 'amber']);
 });
 
 // TRAVELLER TEST

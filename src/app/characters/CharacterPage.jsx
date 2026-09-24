@@ -111,8 +111,10 @@ export default function CharacterPage() {
           <Link className='text-zinc-300 hover:text-white' to='/characters'>
             ← All Characters
           </Link>
-          <div className='text-zinc-400/60 text-xs font-mono'>
-            /characters/{id}
+          <div className='text-zinc-400/60 font-mono'>
+            <Link className='text-zinc-300 hover:text-white' to='/'>
+            Home
+          </Link>
           </div>
         </div>
       </div>

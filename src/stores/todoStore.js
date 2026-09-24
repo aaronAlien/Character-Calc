@@ -1,15 +1,10 @@
-import { useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from "react";
 
-/**
- * A tiny external store with localStorage persistence.
- * - test via createTodoStore({ storage })
- */
-
-const STORAGE_KEY = 'gi_todos_v1';
+const STORAGE_KEY = "gi_todos_v1";
 
 function defaultStorage() {
-  // In Node tests, window/localStorage won't exist
-  if (typeof window === 'undefined') return null;
+  // in tests, window/localStorage won't exist
+  if (typeof window === "undefined") return null;
   return window.localStorage;
 }
 
@@ -26,7 +21,8 @@ function clone(obj) {
 }
 
 function makeId() {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+  if (typeof crypto !== "undefined" && crypto.randomUUID)
+    return crypto.randomUUID();
   return `todo_${Date.now()}_${Math.random().toString(16).slice(2)}`;
 }
 
@@ -52,6 +48,15 @@ export function createTodoStore({ storage = defaultStorage() } = {}) {
 
   function emit() {
     for (const l of listeners) l();
+  }
+
+  function hasCharacterTodo(characterId) {
+    return todos.some(
+      (t) =>
+        t.type === "character" &&
+        t.icon?.kind === "character" &&
+        t.icon?.id === characterId,
+    );
   }
 
   function load() {
@@ -84,7 +89,7 @@ export function createTodoStore({ storage = defaultStorage() } = {}) {
     emit();
   }
 
-  /** Merge resource counts into a target object (mutates target). */
+  /** merge resource counts into a target object (mutates target). */
   function mergeInto(target, add) {
     for (const [k, v] of Object.entries(add)) {
       const n = Number(v) || 0;
@@ -93,23 +98,38 @@ export function createTodoStore({ storage = defaultStorage() } = {}) {
   }
 
   /**
-   * Add a todo.
-   * For now: character todos append. (Item merging kept for future.)
+   * append todo - toast success or duplicate character 
    * @param {Omit<Todo, 'id'|'createdAt'>} data
+   * @returns {{ ok: true, todo: Todo } | { ok: false, reason: 'duplicate'|'invalid' }}
    */
   function addTodo(data) {
+    if (!data?.type || !data?.resources) {
+      return { ok: false, reason: "invalid" };
+    }
+
+    // prevent duplicate character todo (same character id)
+    if (
+      data.type === "character" &&
+      data.icon?.kind === "character" &&
+      data.icon?.id
+    ) {
+      if (hasCharacterTodo(data.icon.id)) {
+        return { ok: false, reason: "duplicate" };
+      }
+    }
+
     const todo = {
       ...data,
       id: makeId(),
       createdAt: Date.now(),
-      // IMPORTANT: ensure original/resources are not the same reference
+      // IMPORTANT - ensure original/resources are not the same reference
       resources: clone(data.resources),
       original: clone(data.original ?? data.resources),
     };
 
-    // If later add item todos and want to merge them 
-    if (todo.type === 'item') {
-      const idx = todos.findIndex((t) => t.type === 'item');
+    // if later add item todos?? - merge them
+    if (todo.type === "item") {
+      const idx = todos.findIndex((t) => t.type === "item");
       if (idx !== -1) {
         const merged = clone(todos[idx]);
         mergeInto(merged.resources, todo.resources);
@@ -117,19 +137,20 @@ export function createTodoStore({ storage = defaultStorage() } = {}) {
         const next = todos.slice();
         next[idx] = merged;
         setTodos(next);
-        return;
+        return { ok: true, todo: next[idx] };
       }
     }
 
     setTodos([...todos, todo]);
+    return { ok: true, todo };
   }
 
-  /** Delete by id */
+  /** delete by id */
   function deleteTodo(id) {
     setTodos(todos.filter((t) => t.id !== id));
   }
 
-  /** Move up/down by id */
+  /** move up/down by id */
   function moveTodo(id, direction) {
     const idx = todos.findIndex((t) => t.id === id);
     if (idx === -1) return;
@@ -142,10 +163,7 @@ export function createTodoStore({ storage = defaultStorage() } = {}) {
     setTodos(next);
   }
 
-  /**
-   * Decrease a resource across 
-   * Example: decreaseResource('mora', 10000)
-   */
+  /* Decrease a resource */
   function decreaseResource(resourceId, amount) {
     let leftover = amount;
 
@@ -187,13 +205,14 @@ export function createTodoStore({ storage = defaultStorage() } = {}) {
   };
 }
 
-// Singleton store for the app
+// singleton store for the app
 export const todoStore = createTodoStore();
 
-/**
- * React hook to read todos (auto re-renders on change).
- */
+/* hook to read todos - auto re-renders on change */
 export function useTodos() {
-  return useSyncExternalStore(todoStore.subscribe, todoStore.getSnapshot, todoStore.getSnapshot);
+  return useSyncExternalStore(
+    todoStore.subscribe,
+    todoStore.getSnapshot,
+    todoStore.getSnapshot,
+  );
 }
- 

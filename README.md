@@ -1,9 +1,20 @@
-This project is a rebuild of a personal tool, redesigned to explore modern frontend architecture, data modeling and testable application logic.
+A resource planner for Genshin Impact. Work out character materials and talent books needed for target levels, keep a list saved of your curreent characters to build.
+Built as a personal hobby tool.
 
-I studied the publicly available data structures and logic to understand the complex game data, dependency relationships, calculation flow and normalisation - then rebuilt the functionality using my a different architecture and React based UI.
-#
-**_This project was inspired by and informed by the open source project [Paimon.moe](https://github.com/MadeBaruna/paimon-moe)_**
+[Live ](https://character-calc.vercel.app/) https://character-calc.vercel.app/
 
-**_With additional assets from [genshinimpactresources](https://genshinimpactresources.tumblr.com/post/806607469689389056/genshin-impact-comment-decorations-all-character)_**
+### Stack
+React, React Router, Vite, Tailwind. Small external store and localStorage persistence.
 
->_All Genshin Impact game content, images, characters, and trademarks are the property of HoYoverse. This project is not affiliated with or endorsed by HoYoverse._
+---
+
+### Attribution
+
+**_This project uses data derived from [Paimon.moe](https://github.com/MadeBaruna/paimon-moe) by MadeBaruna, licensed under the [MIT License](https://github.com/MadeBaruna/paimon-moe/blob/main/LICENSE)._** 
+
+The functionality has been reimplemented in React using a different architecture.
+https://github.com/aaronAlien/Character-Calc/tree/main/third_party_licenses/paimon-moe.txt
+
+**_Character comment decoration from [genshinimpactresources](https://genshinimpactresources.tumblr.com/post/806607469689389056/genshin-impact-comment-decorations-all-character)_**
+
+>_All Genshin Impact content, characters, artwork and trademarks are the property of HoYoverse. This is an unofficial, non-commercial fan project and is not affiliated with or endorsed by HoYoverse._
