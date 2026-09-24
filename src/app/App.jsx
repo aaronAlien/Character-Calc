@@ -6,7 +6,7 @@ import TodoPage from "./todo/ToDoPage";
 import CalculatorPage from "./calculator/CalculatorPage";
 import Footer from '../components/Footer'
 import '../styles/index.css'
-import ToastViewport from "../components/toastViewport";
+import ToastViewport from "../components/ToastViewport.jsx";
 
 export default function App() {
   return (

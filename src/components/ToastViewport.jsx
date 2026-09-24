@@ -6,7 +6,7 @@ export default function ToastViewport() {
   if (!toasts.length) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-[9999] w-[min(520px,calc(100vw-2rem))] -translate-x-1/2 space-y-2">
+    <div className="fixed bottom-4 left-1/2 z-9999 w-[min(520px,calc(100vw-2rem))] -translate-x-1/2 space-y-2">
       {toasts.map((t) => (
         <div
           key={t.id}

@@ -9,7 +9,7 @@ import { characters } from "../../data/characters";
 import { itemList } from "../../data/itemList";
 import { characterExp } from "../../data/characterExp";
 import { talent as talentCosts } from "../../data/talent";
-import ToastViewport from "../../components/toastViewport";
+import ToastViewport from "../../components/ToastViewport";
 
 const DEFAULT_RESOURCES = [
   { selected: true, id: "heros_wit", label: "Hero's Wit", value: 20000 },
